@@ -6,6 +6,48 @@ SYMBOLS = list('!"#$%&\'()*+,-./:;?@[]^_`{|}~')
 
 def generate_password():
     # Start coding here
+    import random
+
+    password = ""
+    PasswordSize = random.randrange(8,16)
+    
+    #Para asegurar que se cumplan las 4 condiciones:
+    Missing = [1,1,1,1]
+    
+    for slot in range(0, PasswordSize):
+
+        #En el caso de que alguna condicion y aún se puede agregar:    
+        if sum(Missing) < (PasswordSize-len(password)):
+            RollTheDice = random.randrange(0,4)             
+        else:
+            for check in range(0, len(Missing)):
+                if Missing[check] == 1:
+                    RollTheDice = check
+            #Se usa el 'len' para que check sea una variable de tipo int
+            #Así puede interactuar con el apartado "if"
+
+
+        if RollTheDice == 0:
+            Number = chr(47 + random.randrange(1,10))
+            password = password + Number
+            Missing[0] = 0
+
+        elif RollTheDice == 1:
+            Uppercase = chr(64+ random.randrange(1,27))
+            password = password + Uppercase
+            Missing[1] = 0
+
+        elif RollTheDice == 2:
+            Lowercase = chr(96+ random.randrange(1,27))
+            password = password + Lowercase
+            Missing[2] = 0
+
+        else:
+            password = password + random.choice(SYMBOLS)
+            Missing[3] = 0
+            pass
+    
+    return password
 
 
 def validate(password):
